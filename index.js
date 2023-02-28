@@ -12,8 +12,8 @@ app.post('/',express.json(), (req, res) => {
     })
 
     function demo(agent){
-        console.log(agent)
-        agent.add(agent)
+        console.log(Object.entries(agent))
+        agent.add("Sending response from webhook server")
     }
     
     let intentMap = new Map()
