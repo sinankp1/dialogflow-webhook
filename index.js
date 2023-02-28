@@ -5,7 +5,7 @@ app.get('/', (req, res) => {
     res.send("it's working")
 })
 
-app.post('/', (req, res) => {
+app.post('/',express.json(), (req, res) => {
     const agent = new dfff.WebhookClient({
         request: req,
         response: res
