@@ -12,7 +12,7 @@ app.post('/',express.json(), (req, res) => {
     })
 
     function demo(agent){
-        console.log(agent.body.originalDetectIntentRequest)
+        console.log(agent?.body?.originalDetectIntentRequest)
         agent.add("Sending response from webhook server")
     }
     
