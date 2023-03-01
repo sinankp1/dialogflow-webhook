@@ -8,7 +8,7 @@ const apartments = [
     {
         id: 1,
         type: "1 bhk",
-        status: "available"
+        status: "not available"
     },
     {
         id: 2,
@@ -33,7 +33,8 @@ app.post('/', express.json(), (req, res) => {
         let apartment_type = reqBody?.queryResult?.parameters?.room_type
         let budget = reqBody?.queryResult?.parameters?.budget
         const availability = apartments.some((item) => item.type === apartment_type && item.status === "available")
-        agent.add(availability ? `We are excited to inform you that ${apartment_type} apartments for ${budget} are available` : 'Currently there are no apartments available')
+        const responseText = availability ? `We are excited to inform you that ${apartment_type} apartments for ${budget} are available` : 'Currently there are no apartments available'
+        agent.add(responseText)
     }
 
     let intentMap = new Map()
