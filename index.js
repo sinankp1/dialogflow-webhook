@@ -12,7 +12,7 @@ app.post('/',express.json(), (req, res) => {
     })
 
     function demo(agent){
-        console.log(agent.request_)
+        console.log(JSON.stringify(agent))
         agent.add("Sending response from webhook server")
     }
     
