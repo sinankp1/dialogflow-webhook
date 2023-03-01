@@ -12,11 +12,12 @@ app.post('/',express.json(), (req, res) => {
     })
 
     function demo(agent){
-        let reqBody = agent.request_.body
-        console.log(reqBody.queryResult.parameters.room_type,agent.request_.body.queryResult.parameters.budget)
-        let mobile = reqBody.session.slice(reqBody.session.lastIndexOf('/'))
-        console.log(mobile)
-        agent.add("Sending response from webhook server")
+        let reqBody = agent?.request_?.body
+        let mobile = reqBody?.session.slice(reqBody.session.lastIndexOf('/')+1)
+        let apartment_type = reqBody?.queryResult?.parameters?.room_type
+        let budget = reqBody?.queryResult?.parameters?.budget
+        console.log(mobile,apartment_type,budget)
+        agent.add(`We are excited to inform you that ${apartment_type} apartments for ${budget} are available`)
     }
     
     let intentMap = new Map()
