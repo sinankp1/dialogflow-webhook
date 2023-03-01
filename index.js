@@ -12,7 +12,10 @@ app.post('/',express.json(), (req, res) => {
     })
 
     function demo(agent){
-        console.log(agent.request_.body.queryResult.parameters.room_type,agent.request_.body.queryResult.parameters.budget)
+        let reqBody = agent.request_.body
+        console.log(reqBody.queryResult.parameters.room_type,agent.request_.body.queryResult.parameters.budget)
+        let mobile = reqBody.session.slice(reqBody.session.lastIndexOf('/'))
+        console.log(mobile)
         agent.add("Sending response from webhook server")
     }
     
