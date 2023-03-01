@@ -16,7 +16,6 @@ app.post('/',express.json(), (req, res) => {
         let mobile = reqBody?.session.slice(reqBody.session.lastIndexOf('/')+1)
         let apartment_type = reqBody?.queryResult?.parameters?.room_type
         let budget = reqBody?.queryResult?.parameters?.budget
-        console.log(reqBody.originalDetectIntentRequest)
         agent.add(`We are excited to inform you that ${apartment_type} apartments for ${budget} are available`)
     }
     
