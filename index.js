@@ -136,7 +136,7 @@ const sendMessage = async (to, message) => {
                 to,
                 type: 'text',
                 text: {
-                    body: message,
+                    body: `${message}`,
                 },
             },
             {
