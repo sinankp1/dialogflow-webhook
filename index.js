@@ -53,7 +53,7 @@ const detectIntent = async (languageCode, queryText, sessionId) => {
         };
 
         const responses = await sessionClient.detectIntent(request);
-        console.log(responses)
+        console.log(responses,"detect intent")
         const result = responses[0].queryResult;
 
         return {
@@ -61,7 +61,7 @@ const detectIntent = async (languageCode, queryText, sessionId) => {
         };
 
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 };
 
@@ -78,8 +78,7 @@ const callDialogFlow = async (queryText, sessionId) => {
         );
         return data;
     } catch (err) {
-        console.log('Third error');
-        console.log(err);
+        console.error(err,"call dialog flow");
     }
 };
 
@@ -109,8 +108,7 @@ const sendMessage = async (to, message) => {
         );
         return response.data
     } catch (err) {
-        console.log('first error');
-        console.log(err?.response || err, 'ffff');
+        console.error(err?.response || err, 'ffff');
     }
 };
 
@@ -172,10 +170,10 @@ app.get('/webhook', (req, res) => {
 // get message from whatsapp
 app.post('/webhook', async (req, res) => {
     try {
-        console.log(JSON.stringify(req.body), "/webhook error")
+        console.log(JSON.stringify(req.body), "/webhook req.body")
         if (req.body?.entry[0]?.changes[0]?.value?.messages && req.body?.entry[0]?.changes[0]?.value?.messages[0]) {
             const { from, text } = req.body?.entry[0]?.changes[0]?.value?.messages[0];
-            console.log(from, text, "/webhook error")
+            console.log(from, text, "/webhook from, text")
             const { body } = text;
             const responseMessage = await callDialogFlow(body, from);
             console.log("response message", responseMessage)
@@ -185,9 +183,7 @@ app.post('/webhook', async (req, res) => {
             res.send("there was no from or text")
         }
     } catch (err) {
-        console.log('Second error');
-        console.log(err, 'ssss');
-        res.send(err);
+        console.error(err, 'ssss');
     }
 });
 
