@@ -150,7 +150,7 @@ app.post('/', (req, res) => {
 app.post('/dialogflow', async (req, res) => {
     const { languageCode, queryText, sessionId } = req.body;
     let responseData = await detectIntent(languageCode, queryText, sessionId);
-    console.logk(responseData, "dialog flow api response")
+    console.log(responseData, "dialog flow api response")
     res.send(responseData.response);
 });
 
