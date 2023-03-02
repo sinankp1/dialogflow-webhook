@@ -124,6 +124,8 @@ app.get('/', (req, res) => {
 
 // Dialog flow fulfillment
 app.post('/', (req, res) => {
+
+    res.setHeader('timeout', '50');
     const agent = new dfff.WebhookClient({
         request: req,
         response: res,
