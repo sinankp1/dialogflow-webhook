@@ -10,7 +10,7 @@ const apartments = [
     {
         id: 1,
         type: '1 bhk',
-        status: 'not available',
+        status: 'available',
     },
     {
         id: 2,
