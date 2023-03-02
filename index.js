@@ -163,6 +163,7 @@ app.post('/webhook', async (req, res) => {
             const send = await sendMessage(from, responseMessage);
             res.send(send);
         }
+        res.send("there was no from or text")
     } catch (err) {
         console.log('Second error');
         console.log(err, 'ssss');
