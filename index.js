@@ -109,7 +109,7 @@ app.get('/webhook', (req, res) => {
 const callDialogFlow = async (queryText, sessionId) => {
     try {
         const { data } = await axios.post(
-            'https://tan-powerful-hummingbird.cyclic.app/dialogflow',
+            'http://localhost:3000/dialogflow',
             {
                 languageCode: 'en',
                 queryText,
