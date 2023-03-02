@@ -188,6 +188,8 @@ app.post('/webhook', async (req, res) => {
             }).catch((err)=>{
                 console.log(err)
             })
+        }else{
+            res.send("no message")
         }
     } catch (err) {
         console.error(err, 'ssss');
