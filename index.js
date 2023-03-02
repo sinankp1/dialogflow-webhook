@@ -156,6 +156,7 @@ app.post('/webhook', async (req, res) => {
     try {
         console.log(JSON.stringify(req.body?.entry[0]?.changes[0].value),"/webhook error")
         const { from, text } = req.body?.entry[0]?.changes[0]?.value?.messages[0];
+        console.log(from,text,"from text")
         const { body } = text;
         const responseMessage = await callDialogFlow(body, from);
         const send = await sendMessage(from, responseMessage);
