@@ -140,8 +140,8 @@ const sendMessage = async (to, message) => {
                 },
             },
             {
-                headers: {
-                    Authorization: bearerToken,
+                "headers": {
+                    "Authorization":`${bearerToken}`,
                 },
             },
         );
