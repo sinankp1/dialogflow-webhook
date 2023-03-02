@@ -123,7 +123,7 @@ app.get('/', (req, res) => {
 // Dialog flow fulfillment
 app.post('/', (req, res) => {
 
-    res.setHeader('timeout', '50');
+  
     const agent = new dfff.WebhookClient({
         request: req,
         response: res,
@@ -169,6 +169,7 @@ app.get('/webhook', (req, res) => {
 
 // get message from whatsapp
 app.post('/webhook', async (req, res) => {
+    res.setHeader('timeout', '100');
     try {
         if (req.body?.entry[0]?.changes[0]?.value?.messages && req.body?.entry[0]?.changes[0]?.value?.messages[0]) {
             const { from, text } = req.body?.entry[0]?.changes[0]?.value?.messages[0];
