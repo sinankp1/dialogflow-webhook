@@ -141,25 +141,27 @@ const sendMessage = async (to, message) => {
             },
             {
                 "headers": {
-                    "Authorization":`${bearerToken}`,
+                    "Authorization": `${bearerToken}`,
                 },
             },
         );
         return data;
     } catch (err) {
         console.log('first error');
-        console.log(err?.response || err , 'ffff');
+        console.log(err?.response || err, 'ffff');
     }
 };
 
 app.post('/webhook', async (req, res) => {
     try {
-        console.log(JSON.stringify(req.body),"/webhook error")
-        const { from, text } = req.body?.entry[0]?.changes[0]?.value?.messages[0];
-        const { body } = text;
-        const responseMessage = await callDialogFlow(body, from);
-        const send = await sendMessage(from, responseMessage);
-        res.send(send);
+        console.log(JSON.stringify(req.body), "/webhook error")
+        if (req.body?.entry[0]?.changes[0]?.value?.messages[0]) {
+            const { from, text } = req.body?.entry[0]?.changes[0]?.value?.messages[0];
+            const { body } = text;
+            const responseMessage = await callDialogFlow(body, from);
+            const send = await sendMessage(from, responseMessage);
+            res.send(send);
+        }
     } catch (err) {
         console.log('Second error');
         console.log(err, 'ssss');
