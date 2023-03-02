@@ -174,22 +174,13 @@ app.post('/webhook', async (req, res) => {
         if (req.body?.entry[0]?.changes[0]?.value?.messages && req.body?.entry[0]?.changes[0]?.value?.messages[0]) {
             const { from, text } = req.body?.entry[0]?.changes[0]?.value?.messages[0];
             const { body } = text;
-            axios.post(
-                `http://localhost:${PORT}/dialogflow`,
-                {
-                    languageCode: 'en',
-                    body,
-                    from,
-                },
-            ).then(async({data})=>{
-                console.log("response message", data)
-                const send = await sendMessage(from, data);
-                res.send(data);
-            }).catch((err)=>{
-                console.log(err)
-            })
-        }else{
-            res.send("no message")
+            // const responseMessage = await callDialogFlow(body, from);
+            let responseData = await detectIntent(languageCode, queryText, sessionId);
+            console.log("response message", responseData)
+            const send = await sendMessage(from, responseData.response);
+            res.send(send);
+        } else {
+            res.send("there was no from or text")
         }
     } catch (err) {
         console.error(err, 'ssss');
