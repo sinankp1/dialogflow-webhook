@@ -178,8 +178,8 @@ app.post('/webhook', async (req, res) => {
                 `http://localhost:${PORT}/dialogflow`,
                 {
                     languageCode: 'en',
-                    queryText,
-                    sessionId,
+                    body,
+                    from,
                 },
             ).then(async({data})=>{
                 console.log("response message", data)
