@@ -148,7 +148,7 @@ const sendMessage = async (to, message) => {
         return data;
     } catch (err) {
         console.log('first error');
-        console.log(err?.data?.error || err?.data || err, 'ffff');
+        console.log(err?.response || err , 'ffff');
     }
 };
 
