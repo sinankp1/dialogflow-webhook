@@ -53,7 +53,7 @@ const detectIntent = async (languageCode, queryText, sessionId) => {
         };
 
         const responses = await sessionClient.detectIntent(request);
-        console.log(responses,"detect intent")
+        console.log(responses, "detect intent")
         const result = responses[0].queryResult;
 
         return {
@@ -78,7 +78,7 @@ const callDialogFlow = async (queryText, sessionId) => {
         );
         return data;
     } catch (err) {
-        console.error(err,"call dialog flow");
+        console.error(err, "call dialog flow");
     }
 };
 
@@ -123,7 +123,7 @@ app.get('/', (req, res) => {
 // Dialog flow fulfillment
 app.post('/', (req, res) => {
 
-  
+
     const agent = new dfff.WebhookClient({
         request: req,
         response: res,
@@ -175,7 +175,8 @@ app.post('/webhook', async (req, res) => {
             const { from, text } = req.body?.entry[0]?.changes[0]?.value?.messages[0];
             const { body } = text;
             // const responseMessage = await callDialogFlow(body, from);
-            let responseData = await detectIntent(languageCode, queryText, sessionId);
+            let languageCode = "en"
+            let responseData = await detectIntent(languageCode, body, from);
             console.log("response message", responseData)
             const send = await sendMessage(from, responseData.response);
             res.send(send);
