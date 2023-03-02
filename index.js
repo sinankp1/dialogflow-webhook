@@ -39,25 +39,30 @@ const CONFIGURATION = {
 const sessionClient = new dialogflow.SessionsClient(CONFIGURATION);
 
 const detectIntent = async (languageCode, queryText, sessionId) => {
-    let sessionPath = sessionClient.projectAgentSessionPath(PROJECTID, sessionId);
+    try {
+        let sessionPath = sessionClient.projectAgentSessionPath(PROJECTID, sessionId);
 
-    let request = {
-        session: sessionPath,
-        queryInput: {
-            text: {
-                text: queryText,
-                languageCode: languageCode,
+        let request = {
+            session: sessionPath,
+            queryInput: {
+                text: {
+                    text: queryText,
+                    languageCode: languageCode,
+                },
             },
-        },
-    };
+        };
 
-    const responses = await sessionClient.detectIntent(request);
+        const responses = await sessionClient.detectIntent(request);
+        console.log(responses)
+        const result = responses[0].queryResult;
 
-    const result = responses[0].queryResult;
+        return {
+            response: result.fulfillmentText,
+        };
 
-    return {
-        response: result.fulfillmentText,
-    };
+    } catch (error) {
+        console.log(error)
+    }
 };
 
 // dialog flow from api
