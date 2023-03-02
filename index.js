@@ -127,7 +127,7 @@ const sendMessage = async (to, message) => {
     try {
         const phoneNumberId = WEBHOOK['phoneNumberId'];
         const version = WEBHOOK['version'];
-        const bearerToken = "Bearer EAAT2cYCAQboBAMhWsZBfUG6PbzZCJ3BjESgPZCEckWA7X7ZCyjZBgGk8I1yrAmweWTFWmZANVAU9NGVKX1q3ge8l6ZC02C1ZB96rKnbQhS4xlva67GdihYcZBhfTuQrW8uttBZAkk8hdZAXQNhHQyH79xRkMhiiN8xiLxzdc8bGxoArbeg2wtsyd98TicZCZArKj97E0ZA3lLMTCBk0QZDZD";
+        const bearerToken = WEBHOOK['accessToken'];
 
         const { data } = await axios.post(
             `https://graph.facebook.com/${version}/${phoneNumberId}/messages`,
