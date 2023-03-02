@@ -60,12 +60,64 @@ const detectIntent = async (languageCode, queryText, sessionId) => {
     };
 };
 
+// dialog flow from api
+const callDialogFlow = async (queryText, sessionId) => {
+    try {
+        const { data } = await axios.post(
+            `http://localhost:${PORT}/dialogflow`,
+            {
+                languageCode: 'en',
+                queryText,
+                sessionId,
+            },
+        );
+        return data;
+    } catch (err) {
+        console.log('Third error');
+        console.log(err);
+    }
+};
+
+
+// send message to whatsapp 
+const sendMessage = async (to, message) => {
+    try {
+        const phoneNumberId = WEBHOOK['phoneNumberId'];
+        const version = WEBHOOK['version'];
+        const bearerToken = WEBHOOK['accessToken'];
+
+        const response = await axios.post(
+            `https://graph.facebook.com/${version}/${phoneNumberId}/messages`,
+            {
+                messaging_product: 'whatsapp',
+                to,
+                type: 'text',
+                text: {
+                    body: `${message}`,
+                },
+            },
+            {
+                "headers": {
+                    "Authorization": `${bearerToken}`,
+                },
+            },
+        );
+        return response.data
+    } catch (err) {
+        console.log('first error');
+        console.log(err?.response || err, 'ffff');
+    }
+};
+
 app.use(express.json())
 
 app.get('/', (req, res) => {
     res.send("it's working");
 });
 
+
+
+// Dialog flow fulfillment
 app.post('/', (req, res) => {
     const agent = new dfff.WebhookClient({
         request: req,
@@ -93,65 +145,24 @@ app.post('/', (req, res) => {
     agent.handleRequest(intentMap);
 });
 
+
+// dialog flow api
 app.post('/dialogflow', async (req, res) => {
     const { languageCode, queryText, sessionId } = req.body;
-
     let responseData = await detectIntent(languageCode, queryText, sessionId);
-
+    console.logk(responseData, "dialog flow api response")
     res.send(responseData.response);
 });
+
+
 
 app.get('/webhook', (req, res) => {
     const response = req.query['hub.challenge'] || 'Invalid challenge value';
     res.send(response);
 });
 
-const callDialogFlow = async (queryText, sessionId) => {
-    try {
-        const { data } = await axios.post(
-            'http://localhost:3000/dialogflow',
-            {
-                languageCode: 'en',
-                queryText,
-                sessionId,
-            },
-        );
-        return data;
-    } catch (err) {
-        console.log('Third error');
-        console.log(err);
-    }
-};
 
-const sendMessage = async (to, message) => {
-    try {
-        const phoneNumberId = WEBHOOK['phoneNumberId'];
-        const version = WEBHOOK['version'];
-        const bearerToken = WEBHOOK['accessToken'];
-
-        const { data } = await axios.post(
-            `https://graph.facebook.com/${version}/${phoneNumberId}/messages`,
-            {
-                messaging_product: 'whatsapp',
-                to,
-                type: 'text',
-                text: {
-                    body: `${message}`,
-                },
-            },
-            {
-                "headers": {
-                    "Authorization": `${bearerToken}`,
-                },
-            },
-        );
-        return data;
-    } catch (err) {
-        console.log('first error');
-        console.log(err?.response || err, 'ffff');
-    }
-};
-
+// get message from whatsapp
 app.post('/webhook', async (req, res) => {
     try {
         console.log(JSON.stringify(req.body), "/webhook error")
@@ -160,7 +171,7 @@ app.post('/webhook', async (req, res) => {
             console.log(from, text, "/webhook error")
             const { body } = text;
             const responseMessage = await callDialogFlow(body, from);
-            console.log("response message",responseMessage)
+            console.log("response message", responseMessage)
             const send = await sendMessage(from, responseMessage);
             res.send(send);
         } else {
