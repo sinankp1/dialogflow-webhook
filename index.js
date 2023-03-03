@@ -138,7 +138,7 @@ app.post('/', (req, res) => {
             (item) => item.type === apartment_type && item.status === 'available',
         );
         const responseText = availability
-            ? `We are excited to inform you that ${apartment_type} apartments for ${budget} are available`
+            ? `We are excited to inform you that ${apartment_type} apartments for ${budget} are available, when are you planning to move in?`
             : 'Currently there are no apartments available';
         agent.add(responseText);
     }
